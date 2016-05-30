@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Reloj con VueJs</title>
+	<script src="vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="clock.css">
+</head>
+<body>
+	<div id="app">
+		<p>{{ reloj }}</p>
+	</div>
+
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				reloj: '00:00:00'
+			},
+			ready: function () {
+				this.start();
+			},
+			methods: {
+				start: function () {
+					var tiempo = new Date();
+					var hr = tiempo.getHours();
+					var min = tiempo.getMinutes();
+					var seg = tiempo.getSeconds();
+					this.reloj = this.checkTime(hr, min, seg);
+					setInterval(this.start, 1000);
+				},
+				checkTime: function(hr, min, seg) {
+					var aux = 'AM';
+					if( hr > 12 ) {
+						hr -= 12;
+						aux = 'PM';
+					}
+					if( min < 10 ) {
+						min = '0' + min;
+					}
+					if( seg < 10 ) {
+						seg = '0' + seg;
+					}
+					return hr + ':' + min + ':' + seg + ' ' + aux;
+				}
+			}
+		});
+	</script>
+</body>
+</html>
